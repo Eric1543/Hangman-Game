@@ -1,0 +1,38 @@
+Create html skeleton
+	Header
+	Body w/image
+	Text
+		Formatted
+	Placeholder Text
+	Frame Image
+	Background color/image
+
+Identify and create variables
+Identify and create functions
+
+Win screen
+Lose screen
+
+letters already guessed
+	correct
+	incorrect
+
+current word
+_ _ _ _ _ _ _ _
+
+how to update current word
+	is guess in current word?
+		for loop
+
+	for(i in current word)
+		if guess === i
+
+flow 
+	pick a random word
+	display word spaces to user
+	allow user to guess
+	replace word spaces if guess in word
+	keep track of guesses 
+	
+	if word done game won
+	else game lost screen
