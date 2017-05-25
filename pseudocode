@@ -34,5 +34,18 @@ flow
 	replace word spaces if guess in word
 	keep track of guesses 
 	
-	if word done game won
-	else game lost screen
+Game over (Clear and reset variables and update ones that display)
+	choose new random word
+	new empty array
+	letters guessed = 0
+	guesses remaining = word.length
+
+		var ranChoice = Math.floor(Math.random() * 10);
+		var randomFilm = favFilms[ranChoice];
+		var wins = 0;
+		document.getElementById("wins").innerHTML = wins;
+		var guessesTaken = 0;
+		var guessesRemaining = allowedGuesses - guessesTaken;
+		document.getElementById("guessesRemaining").innerHTML = guessesRemaining;
+		var lettersGuessed = ['none'];
+		document.getElementById("lettersGuessed").innerHTML = lettersGuessed;
