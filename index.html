@@ -26,9 +26,9 @@
 			<section id="frame">
 				<section id="main-container" class="col">
 							<br>
-					<div>Can you guess the name of the hit film?</div>
+					<div id="intro">Can you guess the name of the hit film?</div>
 							<br>
-					<div>Guesses Remaining</div>
+					<div id="var1">Guesses Remaining</div>
 							<br>
 						<div id="guessesRemaining"></div>
 							<br>
@@ -38,21 +38,19 @@
 							<h4 id="blanks"></h4>
 								<br>
 					</div>
-					<div>Letters Already Guessed</div>
+					<div id="var2">Letters Already Guessed</div>
 							<br>
 						<div id="lettersGuessed"></div>
 							<br>
-					<div>Wins</div>
+					<div id="var3">Wins</div>
 							<br>
 						<div id="wins"></div>
 							<br>
-					<div id="Debug"></div>
-					<div id="Debug2"></div>
 				</section>
 			</section>
 
 		<script>
-		// Variables and links to their html contents.
+		// List of films
 		var favFilms = ["ROMANCING THE STONE", "INCEPTION", "INTERSTELLAR", "EQUILIBRIUM", "THE OUTSIDERS", "THE WATERBOY", "DUMB AND DUMBER", "ALIENS", "TOMBSTONE", "JOE VS THE VOLCANO"];
 		// Keep track of words guessed right and display them
 		var wins = 0;
@@ -60,8 +58,8 @@
 		// Choose a random film title
 		var ranChoice = Math.floor(Math.random() * 10);
 		var randomFilm = favFilms[ranChoice];
-		// User gets a number of guesses equal to the film's length
-		var allowedGuesses = randomFilm.length;
+		// User gets a number of guesses equal to the film's length + 3
+		var allowedGuesses = randomFilm.length + 3;
 		// Keep track of user's number of guesses and guesses left and display them
 		var guessesTaken = 0;
 		var guessesRemaining = allowedGuesses - guessesTaken;
@@ -72,47 +70,96 @@
 		var lettersGuessed = ['none'];
 		document.getElementById("lettersGuessed").innerHTML = lettersGuessed;
 		
-		document.getElementById("Debug").innerHTML = randomFilm;
 
-		// Take the random film and make array of same length with blanks _ instead.
+		// Game boolean
+		var playAgain = true;
+
+		// Take the random film and make an array of same length with blanks _ instead
 		var filmBlanks = function(){
 		for(var i in randomFilm){
-				if(i === " "){
-					wordInProgress.push("&nbsp; &nbsp;");
+				if(randomFilm[i] === " "){
+					wordInProgress.push("&nbsp;");
 				}
 				else{
 					wordInProgress.push("_");
-					blankWord = wordInProgress.join(" ");
 				}
 			}
 		};
 
 		filmBlanks();
+		var blankWord = wordInProgress.join(" ");
 		document.getElementById("blanks").innerHTML = blankWord;
 
+		// Function to replace the array of blanks as user guesses right letters
+		var updateWord = function(userKey){
+			for(var i in randomFilm){
+					if(randomFilm[i] === " "){
+						wordInProgress[i] = "&nbsp;";
+					}
+					else if(randomFilm[i] === userKey){
+						wordInProgress[i] = userKey;
+					}
+
+			}
+		};
+
+		// The win function
+		var win = function(){
+			if(wordInProgress.indexOf('_') === -1){
+				playAgain=false;
+				wins++;
+				console.log("Game over");
+				document.getElementById("blanks").innerHTML = "You Won!";
+				document.getElementById("lettersGuessed").innerHTML = "";
+				document.getElementById("guessesRemaining").innerHTML = "";
+				document.getElementById("intro").innerHTML = "";
+				document.getElementById("theWord").innerHTML = "";
+				document.getElementById("var1").innerHTML = "";
+				document.getElementById("var2").innerHTML = "";
+				document.getElementById("var3").innerHTML = "";
+				document.getElementById("wins").innerHTML = "";
+			}
+			else if(guessesRemaining===0){
+				playAgain=false;
+				console.log("Game over");
+				document.getElementById("blanks").innerHTML = "Game Over";
+				document.getElementById("lettersGuessed").innerHTML = "";
+				document.getElementById("guessesRemaining").innerHTML = "";
+				document.getElementById("intro").innerHTML = "";
+				document.getElementById("theWord").innerHTML = "";
+				document.getElementById("var1").innerHTML = "";
+				document.getElementById("var2").innerHTML = "";
+				document.getElementById("var3").innerHTML = "";
+				document.getElementById("wins").innerHTML = "";
+			}
+		}
 		//****************************************************//
 		//******* Game starts with user keyboard event *******//
 		//****************************************************//
+
 		document.onkeyup = function(event) {
 		
+		var userKey = event.key.toUpperCase();
+
+		updateWord(userKey);
+		blankWord = wordInProgress.join(" ");
+		document.getElementById("blanks").innerHTML = blankWord;
+
 		// Get rid of lettersGuessed array placeholder
-		if(lettersGuessed[0]==="none"){
+		if(lettersGuessed[0]==="none" && playAgain === true){
 				lettersGuessed.pop();
 			}
-
-		for(var i in randomFilm){
-			if(event.key.toUpperCase()===randomFilm[i]){
-			wordInProgress = blankWord.split();
-			console.log(blankWord.length);
-			console.log(wordInProgress);
-			console.log(wordInProgress[i]);
-			}
-		}
         
 		//  Keep track of letters already guessed, doesn't add duplicates
-        if(lettersGuessed.indexOf(event.key.toUpperCase())===-1){
+        if(lettersGuessed.indexOf(event.key.toUpperCase())===-1 && playAgain === true){
         	lettersGuessed.push(event.key.toUpperCase());
 	        document.getElementById("lettersGuessed").innerHTML = lettersGuessed;
+	        guessesRemaining--;
+	        document.getElementById("guessesRemaining").innerHTML = guessesRemaining;	
+
+		//Did user win?
+		win();
+
         }
       };
 
