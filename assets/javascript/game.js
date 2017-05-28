@@ -19,6 +19,12 @@ var wordInProgress = [];
 // Array to store letters already guessed then call to display them
 var lettersGuessed = ['none'];
 document.getElementById("lettersGuessed").innerHTML = lettersGuessed;
+// Import game lose audio from Freesound.org
+var showdown = document.createElement("audio");
+showdown.setAttribute("src", "assets/audio/showdownShort.wav");
+// Import game win audio from zapsplat.com
+var winGame = document.createElement("audio");
+winGame.setAttribute("src", "assets/audio/win.mp3");
 
 // Game boolean
 var playAgain = true;
@@ -55,6 +61,7 @@ var updateWord = function(userKey){
 // Count a win or loss and reset the game
 var win = function(){
 	if(wordInProgress.indexOf('_') === -1){
+		winGame.play();
 		wins++;
 		document.getElementById("wins").innerHTML = wins;
 		ranChoice = Math.floor(Math.random() * 10);
@@ -71,6 +78,7 @@ var win = function(){
 		document.getElementById("lettersGuessed").innerHTML = lettersGuessed;
 	}
 	else if(guessesRemaining===0){
+		showdown.play();
 		losses++;
 		document.getElementById("losses").innerHTML = losses;
 		ranChoice = Math.floor(Math.random() * 10);

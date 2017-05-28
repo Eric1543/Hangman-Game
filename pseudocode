@@ -49,3 +49,13 @@ Game over (Clear and reset variables and update ones that display)
 		document.getElementById("guessesRemaining").innerHTML = guessesRemaining;
 		var lettersGuessed = ['none'];
 		document.getElementById("lettersGuessed").innerHTML = lettersGuessed;
+
+var ranChoice = Math.floor(Math.random() * 10);
+var randomFilm = favFilms[ranChoice];
+var wins = 0; 
+document.getElementById("wins").innerHTML = wins;
+var guessesTaken = 0;
+var guessesRemaining = allowedGuesses - guessesTaken;
+document.getElementById("guessesRemaining").innerHTML = guessesRemaining;
+var lettersGuessed = ['none'];
+document.getElementById("lettersGuessed").innerHTML = lettersGuessed;
