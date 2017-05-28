@@ -24,7 +24,7 @@ var showdown = document.createElement("audio");
 showdown.setAttribute("src", "assets/audio/showdownShort.wav");
 // Import game win audio from zapsplat.com
 var winGame = document.createElement("audio");
-winGame.setAttribute("src", "assets/audio/win.mp3");
+winGame.setAttribute("src", "assets/audio/win.wav");
 
 // Game boolean
 var playAgain = true;
